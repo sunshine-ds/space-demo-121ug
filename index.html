@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Hello Space — Tiny Tailwind App</title>
+  <!-- Tailwind CDN with small config for dark mode and custom colors -->
+  <script>
+    // Tailwind CDN configuration must be set before loading the script
+    window.tailwind = {
+      config: {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              cosmic: {
+                50: '#f6f7ff',
+                100: '#eaefff',
+                200: '#c6d8ff',
+                300: '#9fb8ff',
+                400: '#7a98ff',
+                500: '#5778f2',
+                600: '#405cd6',
+                700: '#3246a8',
+                800: '#23307a',
+                900: '#15194f'
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial']
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom styles for subtle starfield and animations */
+    :root { --bg: #0f172a; }
+    .starfield {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .star {
+      position: absolute;
+      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.6) 35%, rgba(255,255,255,0) 70%);
+      opacity: 0.9;
+      border-radius: 50%;
+      transform: translate3d(0,0,0);
+      animation: twinkle 6s infinite ease-in-out;
+    }
+    @keyframes twinkle {
+      0% { transform: translateY(0) scale(1); opacity: 0.85; }
+      50% { transform: translateY(-6px) scale(1.15); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 0.85; }
+    }
+    /* Respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      .star { animation: none; }
+    }
+    /* subtle gradient overlay */
+    .nebula {
+      position: absolute;
+      inset: -10% -10% auto -10%;
+      height: 60%;
+      background: radial-gradient(40% 40% at 10% 20%, rgba(87,120,242,0.12), transparent), radial-gradient(30% 30% at 90% 80%, rgba(64,92,214,0.08), transparent);
+      filter: blur(36px);
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-cosmic-900 via-[#071129] to-[#000814] text-slate-100 font-sans">
+  <div class="relative min-h-screen flex flex-col">
+    <!-- Starfield background -->
+    <div class="starfield" aria-hidden="true">
+      <div class="nebula"></div>
+      <!-- Generate many tiny stars via spans -->
+      <!-- Positions and sizes are set inline for variety -->
+      <span class="star" style="width:2px;height:2px;left:6%;top:12%;animation-delay:0s;opacity:0.7"></span>
+      <span class="star" style="width:3px;height:3px;left:18%;top:22%;animation-delay:1s;opacity:0.9"></span>
+      <span class="star" style="width:1.5px;height:1.5px;left:28%;top:8%;animation-delay:2s;opacity:0.6"></span>
+      <span class="star" style="width:2.5px;height:2.5px;left:36%;top:44%;animation-delay:3s;opacity:0.85"></span>
+      <span class="star" style="width:1.8px;height:1.8px;left:48%;top:18%;animation-delay:1.2s;opacity:0.7"></span>
+      <span class="star" style="width:2px;height:2px;left:60%;top:28%;animation-delay:2.2s;opacity:0.8"></span>
+      <span class="star" style="width:1.6px;height:1.6px;left:72%;top:6%;animation-delay:0.8s;opacity:0.6"></span>
+      <span class="star" style="width:3px;height:3px;left:82%;top:36%;animation-delay:1.6s;opacity:0.9"></span>
+      <span class="star" style="width:2px;height:2px;left:92%;top:20%;animation-delay:2.8s;opacity:0.7"></span>
+      <span class="star" style="width:2.2px;height:2.2px;left:12%;top:66%;animation-delay:0.5s;opacity:0.8"></span>
+      <span class="star" style="width:1.4px;height:1.4px;left:26%;top:72%;animation-delay:1.9s;opacity:0.6"></span>
+      <span class="star" style="width:2.8px;height:2.8px;left:44%;top:82%;animation-delay:2.4s;opacity:0.9"></span>
+      <span class="star" style="width:2px;height:2px;left:68%;top:74%;animation-delay:3.1s;opacity:0.75"></span>
+      <span class="star" style="width:1.6px;height:1.6px;left:86%;top:62%;animation-delay:0.3s;opacity:0.65"></span>
+    </div>
+
+    <!-- Top nav -->
+    <header class="relative z-10 px-6 sm:px-8 lg:px-12 py-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="bg-gradient-to-br from-[#7c91ff] to-[#405cd6] p-2 rounded-md shadow-md">
+          <!-- small planet icon -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="6" fill="white" fill-opacity="0.92" />
+            <path d="M2 12c0-1.5 1-4 5-5" stroke="rgba(0,0,0,0.12)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="text-sm sm:text-base leading-tight">
+          <div class="font-semibold">Hello Space</div>
+          <div class="text-xs text-slate-400">A tiny Tailwind page</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="btnShare" class="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-slate-800/40 hover:bg-slate-800/60 transition text-sm" title="Share this page">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M15 8a3 3 0 10-2.83-4H6a2 2 0 000 4h6.17A3 3 0 0015 8zM4 10a2 2 0 100 4h8a2 2 0 100-4H4z"/></svg>
+          <span class="sr-only">Share</span>
+          <span class="hidden sm:inline">Share</span>
+        </button>
+
+        <button id="themeToggle" aria-pressed="false" class="p-2 rounded-md bg-slate-800/30 hover:bg-slate-800/50 transition" title="Toggle color theme (Dark/Light)">
+          <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <!-- icon will be swapped by JS -->
+          </svg>
+          <span class="sr-only">Toggle theme</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main hero -->
+    <main class="relative z-10 flex-1 flex items-center justify-center px-6 sm:px-8 lg:px-12">
+      <section class="max-w-4xl w-full text-center">
+        <div class="p-8 sm:p-12 md:p-16 backdrop-blur-sm bg-white/5 rounded-2xl border border-white/6 shadow-2xl relative z-10">
+          <div class="flex flex-col items-center gap-6">
+            <div class="flex items-center gap-4">
+              <!-- Decorative planet SVG -->
+              <svg class="w-16 h-16 sm:w-20 sm:h-20" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0" stop-color="#7C91FF" />
+                    <stop offset="1" stop-color="#405CD6" />
+                  </linearGradient>
+                </defs>
+                <circle cx="60" cy="60" r="40" fill="url(#g1)" opacity="0.98" />
+                <path d="M20 85c0-27 28-50 60-50" stroke="rgba(255,255,255,0.08)" stroke-width="6" stroke-linecap="round"/>
+                <g opacity="0.18" fill="#fff">
+                  <circle cx="46" cy="50" r="2" />
+                  <circle cx="72" cy="70" r="1.6" />
+                </g>
+              </svg>
+
+              <div class="text-left">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">Hello Space</h1>
+                <p class="mt-1 text-slate-300 text-sm sm:text-base">A minimal, responsive single-file HTML app built with Tailwind CSS.</p>
+              </div>
+            </div>
+
+            <p class="max-w-xl text-slate-300 text-sm sm:text-base">This tiny page greets the cosmos — responsive, accessible, and pleasantly animated. Try toggling the theme, sharing the page, or copying the greeting.</p>
+
+            <div class="flex flex-col sm:flex-row gap-3 mt-3">
+              <button id="btnCopy" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-gradient-to-r from-[#7C91FF] to-[#405CD6] shadow-md hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7C91FF] text-sm">Copy Greeting</button>
+              <button id="btnToast" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-slate-800/40 hover:bg-slate-800/60 text-sm">Show Toast</button>
+            </div>
+
+            <div class="mt-6 text-xs text-slate-400">Tip: Press <kbd class="rounded bg-slate-700 px-2 py-0.5">T</kbd> to toggle the theme, <kbd class="rounded bg-slate-700 px-2 py-0.5">C</kbd> to copy.</div>
+          </div>
+        </div>
+
+        <!-- small info card -->
+        <div class="mt-6 flex items-center justify-center">
+          <div class="text-slate-400 text-xs sm:text-sm">Made with ❤️ · Single HTML file · Tailwind CDN</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="relative z-10 px-6 sm:px-8 lg:px-12 py-6 text-center text-slate-400 text-xs">
+      © <span id="year">2025</span> Hello Space — Tiny Tailwind Page
+    </footer>
+  </div>
+
+  <!-- Toast / Notification -->
+  <div id="toast" class="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 pointer-events-none opacity-0 transition-all duration-300">
+    <div class="pointer-events-auto bg-slate-900/90 text-white px-4 py-2 rounded-md shadow-lg border border-white/6">Copied “Hello Space” to clipboard</div>
+  </div>
+
+  <script>
+    (function () {
+      // Utilities
+      const $ = (sel, ctx = document) => ctx.querySelector(sel);
+      const copyText = async (text) => {
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            // Fallback for older browsers
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'absolute';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+          return true;
+        } catch (e) {
+          return false;
+        }
+      };
+
+      // Elements
+      const yearEl = $('#year');
+      const btnCopy = $('#btnCopy');
+      const btnShare = $('#btnShare');
+      const btnToast = $('#btnToast');
+      const toast = $('#toast');
+      const themeToggle = $('#themeToggle');
+      const themeIcon = $('#themeIcon');
+
+      // Set year
+      yearEl.textContent = new Date().getFullYear();
+
+      // Theme handling
+      const setTheme = (theme) => {
+        const root = document.documentElement;
+        if (theme === 'light') {
+          root.classList.remove('dark');
+          themeToggle.setAttribute('aria-pressed', 'false');
+          themeIcon.innerHTML = '<path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zM10 18a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM2 10a1 1 0 011-1h1a1 1 0 110 2H3a1 1 0 01-1-1zM18 10a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1zM4.22 4.22a1 1 0 011.42 0l.71.71a1 1 0 11-1.42 1.42l-.71-.71a1 1 0 010-1.42zM15.65 15.65a1 1 0 011.42 0l.71.71a1 1 0 11-1.42 1.42l-.71-.71a1 1 0 010-1.42zM15.65 4.35a1 1 0 010 1.42l-.71.71a1 1 0 11-1.42-1.42l.71-.71a1 1 0 011.42 0zM5.36 15.36a1 1 0 010 1.42l-.71.71a1 1 0 11-1.42-1.42l.71-.71a1 1 0 011.42 0zM10 6a4 4 0 100 8 4 4 0 000-8z" />';
+        } else {
+          root.classList.add('dark');
+          themeToggle.setAttribute('aria-pressed', 'true');
+          themeIcon.innerHTML = '<path fill-rule="evenodd" d="M17.293 13.293a8 8 0 11-10.586-10.586 7 7 0 1010.586 10.586z" clip-rule="evenodd" />';
+        }
+      };
+
+      // Initialize theme from localStorage or system
+      const stored = localStorage.getItem('hs_theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(stored ? stored : (prefersDark ? 'dark' : 'light'));
+
+      // Toggle theme handler
+      themeToggle.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.contains('dark');
+        const next = isDark ? 'light' : 'dark';
+        setTheme(next);
+        localStorage.setItem('hs_theme', next);
+      });
+
+      // Copy greeting handler
+      const greeting = 'Hello Space';
+      btnCopy.addEventListener('click', async () => {
+        const ok = await copyText(greeting);
+        showToast(ok ? `Copied “${greeting}” to clipboard` : 'Could not copy to clipboard');
+      });
+
+      // Toast handler
+      let toastTimer = null;
+      function showToast(message = 'Done') {
+        toast.querySelector('div').textContent = message;
+        toast.style.transition = 'none';
+        requestAnimationFrame(() => {
+          toast.style.opacity = '1';
+          toast.style.transform = 'translateY(0)';
+          toast.style.transition = '';
+        });
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.style.opacity = '0';
+        }, 2200);
+      }
+
+      btnToast.addEventListener('click', () => showToast('Hello Space — toast shown'));
+
+      // Share / Web Share API
+      btnShare.addEventListener('click', async () => {
+        const shareData = {
+          title: 'Hello Space',
+          text: 'Hello Space — a tiny Tailwind page',
+          url: location.href
+        };
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+          } catch (e) {
+            // user cancelled
+          }
+        } else {
+          // fallback: copy the URL
+          const ok = await copyText(location.href);
+          showToast(ok ? 'Link copied to clipboard' : 'Could not copy link');
+        }
+      });
+
+      // Keyboard shortcuts
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'T' || e.key === 't') {
+          e.preventDefault();
+          themeToggle.click();
+        }
+        if (e.key === 'C' || e.key === 'c') {
+          e.preventDefault();
+          btnCopy.click();
+        }
+      });
+
+      // Accessibility: ensure body has min contrast in light mode
+      // (We keep default dark styling; light mode is for demonstration)
+
+      // Clean up: if user prefers reduced motion, remove animations
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('reduced-motion');
+      }
+    })();
+  </script>
+</body>
+</html>
